@@ -1,0 +1,116 @@
+{
+  "title": "日程安排",
+  "description": "按日期管理的日程事项",
+  "items": [
+    {
+      "id": "sch-demo-001",
+      "date": "2026-03-07",
+      "time": "09:00",
+      "endTime": "10:00",
+      "title": "项目启动 - AI助理日程系统上线",
+      "description": "完成AI助理前端网页的初始搭建",
+      "category": "work",
+      "status": "completed"
+    },
+    {
+      "id": "sch-gym-001",
+      "date": "2026-03-02",
+      "time": "16:00",
+      "endTime": "18:00",
+      "title": "健身",
+      "description": "工作日下午健身",
+      "category": "health",
+      "status": "completed"
+    },
+    {
+      "id": "sch-gym-002",
+      "date": "2026-03-03",
+      "time": "16:00",
+      "endTime": "18:00",
+      "title": "健身",
+      "description": "工作日下午健身",
+      "category": "health",
+      "status": "completed"
+    },
+    {
+      "id": "sch-gym-003",
+      "date": "2026-03-04",
+      "time": "16:00",
+      "endTime": "18:00",
+      "title": "健身",
+      "description": "工作日下午健身",
+      "category": "health",
+      "status": "completed"
+    },
+    {
+      "id": "sch-gym-004",
+      "date": "2026-03-05",
+      "time": "16:00",
+      "endTime": "18:00",
+      "title": "健身",
+      "description": "工作日下午健身",
+      "category": "health",
+      "status": "completed"
+    },
+    {
+      "id": "sch-gym-005",
+      "date": "2026-03-06",
+      "time": "16:00",
+      "endTime": "18:00",
+      "title": "健身",
+      "description": "工作日下午健身",
+      "category": "health",
+      "status": "completed"
+    },
+    {
+      "id": "sch-gym-006",
+      "date": "2026-03-09",
+      "time": "16:00",
+      "endTime": "18:00",
+      "title": "健身",
+      "description": "工作日下午健身",
+      "category": "health",
+      "status": "pending"
+    },
+    {
+      "id": "sch-gym-007",
+      "date": "2026-03-10",
+      "time": "16:00",
+      "endTime": "18:00",
+      "title": "健身",
+      "description": "工作日下午健身",
+      "category": "health",
+      "status": "pending"
+    },
+    {
+      "id": "sch-gym-008",
+      "date": "2026-03-11",
+      "time": "16:00",
+      "endTime": "18:00",
+      "title": "健身",
+      "description": "工作日下午健身",
+      "category": "health",
+      "status": "pending"
+    },
+    {
+      "id": "sch-gym-009",
+      "date": "2026-03-12",
+      "time": "16:00",
+      "endTime": "18:00",
+      "title": "健身",
+      "description": "工作日下午健身",
+      "category": "health",
+      "status": "pending"
+    },
+    {
+      "id": "sch-gym-010",
+      "date": "2026-03-13",
+      "time": "16:00",
+      "endTime": "18:00",
+      "title": "健身",
+      "description": "工作日下午健身",
+      "category": "health",
+      "status": "pending"
+    }
+  ]
+}

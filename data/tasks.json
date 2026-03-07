@@ -1,0 +1,56 @@
+{
+  "title": "待办任务",
+  "description": "需要完成的任务清单",
+  "items": [
+    {
+      "id": "task-001",
+      "title": "论文初稿",
+      "description": "完成论文初稿全部内容。当前进度：内容完成至第六章，图片完成至第四章。",
+      "priority": "high",
+      "status": "in-progress",
+      "deadline": "2026-03-12",
+      "createdAt": "2026-03-07",
+      "tags": ["论文", "初稿"]
+    },
+    {
+      "id": "task-001a",
+      "title": "论文 - 剩余章节内容撰写（第七章起）",
+      "description": "第六章之后的内容尚未完成，需尽快推进",
+      "priority": "high",
+      "status": "pending",
+      "deadline": "2026-03-11",
+      "createdAt": "2026-03-07",
+      "tags": ["论文", "内容"]
+    },
+    {
+      "id": "task-001b",
+      "title": "论文 - 补齐第五章起的图片",
+      "description": "图片目前只完成到第四章，第五章及之后的图片需要补齐",
+      "priority": "high",
+      "status": "pending",
+      "deadline": "2026-03-11",
+      "createdAt": "2026-03-07",
+      "tags": ["论文", "图片"]
+    },
+    {
+      "id": "task-002",
+      "title": "春招简历投递",
+      "description": "长期任务，每天抽出1小时投递简历",
+      "priority": "medium",
+      "status": "in-progress",
+      "deadline": "",
+      "createdAt": "2026-03-07",
+      "tags": ["春招", "求职", "长期"]
+    },
+    {
+      "id": "task-demo-001",
+      "title": "熟悉AI助理日程系统",
+      "description": "了解系统功能，尝试通过对话添加日程和任务",
+      "priority": "medium",
+      "status": "pending",
+      "deadline": "2026-03-08",
+      "createdAt": "2026-03-07",
+      "tags": ["入门", "系统"]
+    }
+  ]
+}
