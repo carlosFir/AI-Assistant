@@ -17,3 +17,9 @@ npm-debug.log*
 # Local
 .env
 .env.local
+
+# 日程数据（个人数据不提交，仅本地保留；仓库内提供 .example.json 模板）
+data/schedule.json
+data/tasks.json
+data/notes.json
+data/reminders.json

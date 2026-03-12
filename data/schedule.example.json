@@ -1,0 +1,26 @@
+{
+  "title": "日程安排",
+  "description": "按日期管理的日程事项",
+  "items": [
+    {
+      "id": "sch-20260312-draft",
+      "date": "2026-03-12",
+      "time": "09:00",
+      "endTime": "10:00",
+      "title": "论文初稿已提交",
+      "description": "论文初稿已经完成并提交。",
+      "category": "work",
+      "status": "completed"
+    },
+    {
+      "id": "sch-20260314-trip",
+      "date": "2026-03-14",
+      "time": "08:00",
+      "endTime": "22:00",
+      "title": "周末常州、溧阳旅游",
+      "description": "周末去常州、溧阳旅游。",
+      "category": "personal",
+      "status": "pending"
+    }
+  ]
+}

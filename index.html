@@ -37,6 +37,10 @@
         <span class="nav-icon">🔔</span>
         <span class="nav-label">提醒事项</span>
       </a>
+      <a href="#" class="nav-item" data-panel="fitness">
+        <span class="nav-icon">💪</span>
+        <span class="nav-label">健身计划</span>
+      </a>
     </nav>
     <div class="sidebar-footer">
       <div class="clock" id="clock"></div>
@@ -48,6 +52,10 @@
     <header class="top-bar">
       <h1 class="page-title" id="pageTitle">总览</h1>
       <div class="top-bar-actions">
+        <div class="search-wrap">
+          <input type="text" class="input-search" id="globalSearch" placeholder="搜索日程、任务、备忘、提醒…" autocomplete="off">
+          <div class="search-results" id="searchResults"></div>
+        </div>
         <button class="btn btn-refresh" id="refreshBtn" title="刷新数据">🔄 刷新</button>
         <span class="last-update" id="lastUpdate"></span>
       </div>
@@ -118,13 +126,21 @@
     <section class="panel" id="panel-schedule">
       <div class="panel-header">
         <div class="filter-bar">
-          <label>筛选日期：</label>
+          <label>筛选：</label>
           <input type="date" id="scheduleDate" class="input-date">
-          <button class="btn btn-sm" id="scheduleTodayBtn">今天</button>
-          <button class="btn btn-sm" id="scheduleAllBtn">全部</button>
+          <button class="btn btn-sm" id="scheduleTodayBtn" data-range="today">今天</button>
+          <button class="btn btn-sm" id="scheduleWeekBtn" data-range="week">本周</button>
+          <button class="btn btn-sm" id="scheduleNextWeekBtn" data-range="nextWeek">下周</button>
+          <button class="btn btn-sm" id="scheduleAllBtn" data-range="all">全部</button>
+          <span class="filter-hint" id="scheduleFilterHint"></span>
         </div>
+        <div class="view-toggle">
+          <button class="btn btn-sm" id="scheduleViewListBtn">列表</button>
+          <button class="btn btn-sm" id="scheduleViewCalendarBtn">日历</button>
+        </div>
+        <button type="button" class="btn btn-sm btn-primary" id="addScheduleBtn">+ 添加日程</button>
       </div>
-      <div class="table-container">
+      <div class="table-container" id="scheduleTableWrap">
         <table class="data-table" id="scheduleTable">
           <thead>
             <tr>
@@ -141,10 +157,18 @@
           </tbody>
         </table>
       </div>
+      <div class="calendar-week-wrap" id="scheduleCalendarWrap" style="display:none;">
+        <div class="calendar-week-header" id="scheduleCalendarHeader"></div>
+        <div class="calendar-week-grid" id="scheduleCalendarGrid"></div>
+      </div>
       <div class="empty-state-panel" id="scheduleEmpty" style="display:none;">
         <span class="empty-icon">📅</span>
-        <p>暂无日程安排</p>
-        <p class="empty-hint">在聊天窗口告诉AI你的日程，它会自动添加到这里</p>
+        <p id="scheduleEmptyText">暂无日程安排</p>
+        <p class="empty-hint">在聊天里对我说一句，我帮你记下来</p>
+      </div>
+      <div class="load-error-panel" id="scheduleLoadError" style="display:none;">
+        <span class="load-error-icon">⚠️</span>
+        <p>数据加载失败，请检查 data 目录或刷新重试</p>
       </div>
     </section>
 
@@ -166,6 +190,7 @@
             <option value="low">低优先级</option>
           </select>
         </div>
+        <button type="button" class="btn btn-sm btn-primary" id="addTaskBtn">+ 添加任务</button>
       </div>
       <div class="table-container">
         <table class="data-table" id="tasksTable">
@@ -186,23 +211,37 @@
       <div class="empty-state-panel" id="tasksEmpty" style="display:none;">
         <span class="empty-icon">✅</span>
         <p>暂无待办任务</p>
-        <p class="empty-hint">在聊天窗口告诉AI你的任务，它会自动添加到这里</p>
+        <p class="empty-hint">在聊天里对我说一句，我帮你记下来</p>
+      </div>
+      <div class="load-error-panel" id="tasksLoadError" style="display:none;">
+        <span class="load-error-icon">⚠️</span>
+        <p>数据加载失败，请检查 data 目录或刷新重试</p>
       </div>
     </section>
 
     <!-- 备忘录面板 -->
     <section class="panel" id="panel-notes">
+      <div class="panel-header" style="margin-bottom:16px;">
+        <button type="button" class="btn btn-sm btn-primary" id="addNoteBtn">+ 添加备忘</button>
+      </div>
       <div class="notes-grid" id="notesGrid">
       </div>
       <div class="empty-state-panel" id="notesEmpty" style="display:none;">
         <span class="empty-icon">📝</span>
         <p>暂无备忘录</p>
-        <p class="empty-hint">在聊天窗口告诉AI你想记录的内容，它会自动添加到这里</p>
+        <p class="empty-hint">在聊天里对我说一句，我帮你记下来</p>
+      </div>
+      <div class="load-error-panel" id="notesLoadError" style="display:none;">
+        <span class="load-error-icon">⚠️</span>
+        <p>数据加载失败，请检查 data 目录或刷新重试</p>
       </div>
     </section>
 
     <!-- 提醒事项面板 -->
     <section class="panel" id="panel-reminders">
+      <div class="panel-header" style="margin-bottom:16px;">
+        <button type="button" class="btn btn-sm btn-primary" id="addReminderBtn">+ 添加提醒</button>
+      </div>
       <div class="table-container">
         <table class="data-table" id="remindersTable">
           <thead>
@@ -221,10 +260,156 @@
       <div class="empty-state-panel" id="remindersEmpty" style="display:none;">
         <span class="empty-icon">🔔</span>
         <p>暂无提醒事项</p>
-        <p class="empty-hint">在聊天窗口告诉AI你的提醒事项，它会自动添加到这里</p>
+        <p class="empty-hint">在聊天里对我说一句，我帮你记下来</p>
+      </div>
+      <div class="load-error-panel" id="remindersLoadError" style="display:none;">
+        <span class="load-error-icon">⚠️</span>
+        <p>数据加载失败，请检查 data 目录或刷新重试</p>
+      </div>
+    </section>
+
+    <!-- 健身计划面板 -->
+    <section class="panel" id="panel-fitness">
+      <div class="panel-header">
+        <div class="filter-bar">
+          <label>日期筛选：</label>
+          <input type="date" id="fitnessDateFilter" class="input-date">
+          <button class="btn btn-sm" id="fitnessTodayBtn">今天</button>
+          <input type="text" id="fitnessSearchInput" class="input-search" style="width:220px" placeholder="按日期 / 动作 / 反思搜索历史健身卡片…">
+        </div>
+        <div class="fitness-actions">
+          <button type="button" class="btn btn-sm" id="fitnessPrevPageBtn">上一页</button>
+          <span id="fitnessPageInfo" class="fitness-page-info"></span>
+          <button type="button" class="btn btn-sm" id="fitnessNextPageBtn">下一页</button>
+          <button type="button" class="btn btn-sm" id="syncFitnessToScheduleBtn">同步到日程</button>
+        </div>
+      </div>
+
+      <div class="fitness-layout">
+        <div class="fitness-cards-column">
+          <div class="fitness-cards-grid" id="fitnessCards"></div>
+          <div class="empty-state-panel" id="fitnessEmpty" style="display:none;">
+            <span class="empty-icon">💪</span>
+            <p>暂无健身记录</p>
+            <p class="empty-hint">点击右侧编辑区域为今天创建第一张健身卡片</p>
+          </div>
+        </div>
+
+        <div class="fitness-editor-column" id="fitnessEditorColumn" style="display:none;">
+          <div class="fitness-editor-header">
+            <div>
+              <div class="fitness-editor-title">编辑当日健身计划</div>
+              <div class="fitness-editor-date" id="fitnessEditorDateLabel"></div>
+            </div>
+            <button type="button" class="btn btn-sm" id="createTodayFitnessBtn">新建今日健身卡片</button>
+          </div>
+
+          <div class="table-container" id="fitnessEditorTableWrap">
+            <table class="data-table" id="fitnessEditorTable">
+              <thead>
+                <tr>
+                  <th width="180">动作</th>
+                  <th width="70">第几组</th>
+                  <th width="70">次数</th>
+                  <th width="90">重量</th>
+                  <th>备注</th>
+                  <th width="70">操作</th>
+                </tr>
+              </thead>
+              <tbody id="fitnessEditorBody">
+              </tbody>
+            </table>
+          </div>
+
+          <div class="fitness-editor-actions">
+            <button type="button" class="btn btn-sm" id="addFitnessRowBtn">+ 添加动作</button>
+            <button type="button" class="btn btn-sm btn-primary" id="saveFitnessBtn">保存当日计划</button>
+          </div>
+
+          <div class="fitness-reflection">
+            <label>
+              训练反思
+              <textarea id="fitnessReflectionInput" rows="4" placeholder="例如：今天状态如何、动作细节、下次需要改进的点…"></textarea>
+            </label>
+          </div>
+        </div>
       </div>
     </section>
   </main>
+
+  <!-- 快速添加弹窗（保存到本地，与 AI 写入的 JSON 合并展示） -->
+  <div class="modal-overlay" id="addModal" aria-hidden="true">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title" id="addModalTitle">添加</h3>
+        <button type="button" class="modal-close" id="addModalClose" aria-label="关闭">×</button>
+      </div>
+      <div class="modal-body">
+        <form id="addForm">
+          <input type="hidden" id="addFormType" value="schedule">
+          <div id="addFormSchedule" class="add-form-panel">
+            <label>日期 <input type="date" id="addScheduleDate"></label>
+            <label>开始时间 <input type="time" id="addScheduleTime" value="09:00"></label>
+            <label>结束时间 <input type="time" id="addScheduleEndTime" value="10:00"></label>
+            <label>事项 <input type="text" id="addScheduleTitle" placeholder="事项名称"></label>
+            <label>详情 <input type="text" id="addScheduleDesc" placeholder="可选"></label>
+            <label>类别
+              <select id="addScheduleCategory">
+                <option value="work">工作</option>
+                <option value="personal">个人</option>
+                <option value="meeting">会议</option>
+                <option value="health">健康</option>
+                <option value="study">学习</option>
+                <option value="other">其他</option>
+              </select>
+            </label>
+          </div>
+          <div id="addFormTasks" class="add-form-panel" style="display:none;">
+            <label>任务名称 <input type="text" id="addTaskTitle" placeholder="必填"></label>
+            <label>描述 <input type="text" id="addTaskDesc" placeholder="可选"></label>
+            <label>优先级
+              <select id="addTaskPriority">
+                <option value="high">高</option>
+                <option value="medium" selected>中</option>
+                <option value="low">低</option>
+              </select>
+            </label>
+            <label>截止日期 <input type="date" id="addTaskDeadline"></label>
+            <label>标签 <input type="text" id="addTaskTags" placeholder="逗号分隔，可选"></label>
+          </div>
+          <div id="addFormNotes" class="add-form-panel" style="display:none;">
+            <label>标题 <input type="text" id="addNoteTitle" placeholder="必填"></label>
+            <label>内容 <textarea id="addNoteContent" rows="4" placeholder="可选"></textarea></label>
+            <label>标签 <input type="text" id="addNoteTags" placeholder="逗号分隔，可选"></label>
+          </div>
+          <div id="addFormReminders" class="add-form-panel" style="display:none;">
+            <label>提醒内容 <input type="text" id="addReminderTitle" placeholder="必填"></label>
+            <label>说明 <input type="text" id="addReminderDesc" placeholder="可选"></label>
+            <label>日期时间 <input type="datetime-local" id="addReminderDatetime"></label>
+            <label>重复
+              <select id="addReminderRepeat">
+                <option value="once">仅一次</option>
+                <option value="daily">每天</option>
+                <option value="weekly">每周</option>
+                <option value="monthly">每月</option>
+                <option value="none">不重复</option>
+              </select>
+            </label>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn" id="addModalCancel">取消</button>
+        <button type="submit" form="addForm" class="btn btn-primary" id="addModalSubmit">添加</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 系统提醒权限 -->
+  <div class="notification-banner" id="notificationBanner" style="display:none;">
+    <span>开启浏览器提醒后，到点可收到系统通知</span>
+    <button type="button" class="btn btn-sm btn-primary" id="notificationEnableBtn">开启提醒</button>
+  </div>
 
   <script src="js/app.js"></script>
 </body>
